@@ -8,6 +8,6 @@ admin.site.site_header = "GAMERSIJUAN.COM"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls', namespace='blog')),
-    path('account/', include('account.urls', namespace='account')),
-    path('ckeditor/', include('ckeditor_uploader.urls'))
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('hitcount/', include(('hitcount.urls', 'hitcount'), namespace='hitcount')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

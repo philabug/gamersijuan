@@ -26,8 +26,8 @@
                         <div class="carousel-item" style="background-image: url('{{ feature.banner.url }}')">
                     {% endif %}
                     <div class="carousel-caption d-none d-md-block">
-                        <h3>{{ feature.title }}</h3>
-                        <p>This is a description for the first slide.</p>
+                        <h1><a class="text-white" href="{% url 'blog:detail' feature.slug %}">{{ feature.title }}</a></h1>
+                        <h4>{{ feature.short_description  }}</h4>
                     </div>
                     </div>
             {% endfor %}
@@ -52,43 +52,22 @@
 <div class="container">
     <br/>
     <!-- Portfolio Section -->
-    <h2>Portfolio Heading</h2>
+    <h2>Best Gaming Hardwares</h2>
 
     <div class="row">
-    <div class="col-lg-4 col-sm-6 portfolio-item">
-        <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-        <div class="card-body">
-            <h4 class="card-title">
-            <a href="#">Project One</a>
-            </h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem!</p>
-        </div>
-        </div>
-    </div>
-    <div class="col-lg-4 col-sm-6 portfolio-item">
-        <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-        <div class="card-body">
-            <h4 class="card-title">
-            <a href="#">Project Two</a>
-            </h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-        </div>
-        </div>
-    </div>
-    <div class="col-lg-4 col-sm-6 portfolio-item">
-        <div class="card h-100">
-        <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-        <div class="card-body">
-            <h4 class="card-title">
-            <a href="#">Project Three</a>
-            </h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos quisquam, error quod sed cumque, odio distinctio velit nostrum temporibus necessitatibus et facere atque iure perspiciatis mollitia recusandae vero vel quam!</p>
-        </div>
-        </div>
-    </div>
-    
+        {% for hardware in hardwares %}
+            <div class="col-lg-4 col-sm-6 portfolio-item">
+                <div class="card h-100">
+                <a href="{% url 'blog:detail' hardware.slug %}"><img class="card-img-top" src="{{ hardware.banner.url }}" alt="" width="700px" height="250px"></a>
+                <div class="card-body">
+                    <h4 class="card-title">
+                    <a href="{% url 'blog:detail' hardware.slug %}">{{ hardware.title }}</a>
+                    </h4>
+                    <p class="card-text">{{ hardware.content|truncatewords:25 | safe  }}</p>
+                </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
     <!-- /.row -->
 

@@ -9,19 +9,23 @@ class AffiliateInlineContent(admin.StackedInline):
 class PostAdmin(admin.ModelAdmin):
     form = PostForm
     inlines = [AffiliateInlineContent]
-    list_display = ('id','title','pub_date','author')
+    list_display = ('id','title','pub_date','category','sub_category','feature')
     list_display_links = ('id','title')
+    list_filter = ('category','sub_category')
     search_fields = ('title',)
+    ordering = ['id']
     fieldsets = (
         (None, {
             "fields": (
                 'title',
+                'short_description',
                 'banner',
+                'category',
+                'sub_category',
                 'content',
                 'feature',
                 'pub_date',
                 'tags',
-                'slug',
             ),
         }),
     )

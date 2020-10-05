@@ -6,6 +6,8 @@ from django.urls import reverse
 from django.db.models.signals import pre_save
 from taggit.managers import TaggableManager
 from ckeditor_uploader.fields import RichTextUploadingField
+from hitcount.models import HitCountMixin, HitCount
+from django.contrib.contenttypes.fields import GenericRelation
 
 
 User = settings.AUTH_USER_MODEL
@@ -15,15 +17,37 @@ def user_media_path(instance, filename):
     return 'user/{0}/images/{1}'.format(instance.author.id, filename)
 
 
+def affiliate_adds_path(instance, filename):
+    return 'affiliate/{0}/{1}'.format(instance.post.id, filename)
+
+
 class Post(models.Model):
+
+    MAIN_CAT = (
+        ('1', 'GAMES'),
+        ('2', 'HARDWARE'),
+        ('3', 'SERVICES'),
+    )
+
+    SUB_CAT = (
+        ('1', 'NEWS'),
+        ('2', 'REVIEWS'),
+        ('3', 'GUIDE'),
+    )
+
     author = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
+    short_description = models.CharField(max_length=500, null=True, blank=True)
     pub_date = models.DateTimeField('Date Published', default=timezone.now, blank=True) # noqa
     banner = models.ImageField('Post Banner', upload_to=user_media_path, null=True, blank=True) # noqa
     content = RichTextUploadingField(null=True, blank=True)
     slug = models.SlugField(max_length=250, null=True, blank=True)
     tags = TaggableManager(blank=True)
     feature = models.BooleanField('Homepage feature?', default=False)
+    category = models.CharField(max_length=20, choices = MAIN_CAT)
+    sub_category = models.CharField(max_length=20, choices = SUB_CAT, null=True, blank=True)
+    hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk', related_query_name='hit_count_generic_relation')
+
 
     def __str__(self):
         return self.title
@@ -43,10 +67,12 @@ pre_save.connect(pre_save_post, sender=Post)
 class Affiliate(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='affiliates') # noqa
     when = models.DateTimeField(default=timezone.now, blank=True)
-    seller = models.CharField(max_length=250, blank=True)
-    product_image = models.ImageField(upload_to=user_media_path, null=True, blank=True) # noqa
+    seller = models.CharField(max_length=250, null=True, blank=True)
+    product_name = models.CharField(max_length=250, null=True, blank=True)
+    description = models.CharField(max_length=250, null=True, blank=True)
+    product_image = models.ImageField(upload_to=affiliate_adds_path, null=True, blank=True) # noqa
     url = models.CharField(max_length=250, blank=True)
-    description = models.CharField(max_length=250, blank=True)
+    
 
     def __str__(self):
         return self.post.title

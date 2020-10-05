@@ -20,3 +20,10 @@ body {
 .portfolio-item {
   margin-bottom: 30px;
 }
+
+@media screen and (max-width: 600px) {
+  p img{
+      width: 100% !important;
+      height: 50% !important;
+  }
+}

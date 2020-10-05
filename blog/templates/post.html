@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load hitcount_tags %}
+
+{% block title %}{{ post.title }} - Gamer Si Juan{% endblock %}
+
+{% block content %}
+
+<!-- container -->
+<div class="container">
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">{{ post.title }}</h1>
+
+    <p>{{ post.content|safe}}</p>
+
+    
+
+  </div>
+<!-- /.container -->
+
+<script>
+    $(document).ready(function(){
+
+    });
+</script>
+
+
+{% endblock %}
