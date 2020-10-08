@@ -3,9 +3,9 @@
  * Copyright 2013-2020 Start Bootstrap
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-logomodern-business-nav/blob/master/LICENSE)
  */
-body {
+/* body {
   padding-top: 56px;
-}
+} */
 
 .carousel-item {
   height: 65vh;
@@ -21,9 +21,38 @@ body {
   margin-bottom: 30px;
 }
 
+.social-icons {
+  text-align: center;
+  }  
+.social-icons li {
+  display:inline-block;
+  list-style-type:none;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  }
+.social-icons li a {
+  border-bottom: none;
+  }
+.social-icons li img {
+  width:25px;
+  height:25px;
+  margin-right: 5px;
+}
+
+
+.logo {
+  max-width:60%;
+  height:auto;
+}
+
 @media screen and (max-width: 600px) {
   p img{
       width: 100% !important;
       height: 50% !important;
   }
+  .logo {
+    max-width:100%;
+    height:auto;
+  }
+
 }
