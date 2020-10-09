@@ -1,3 +1,4 @@
+import json
 from django.views.generic import ListView, DetailView, TemplateView, View, CreateView # noqa
 from django.views.generic.edit import FormMixin
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, JsonResponse # noqa
@@ -6,6 +7,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 from django.conf import settings
 from hitcount.views import HitCountDetailView
+
+
+def search_content(request):
+    all_content = list(Post.objects.all().values('id','title').order_by('-id'))
+    return ({'all_content': json.dumps(all_content) } )
 
 
 class HomeViewList(ListView):
