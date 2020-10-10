@@ -7,7 +7,7 @@
     <meta name="author" content="">
   
     <title>
-        {% block title %}Gamer Si Juan{% endblock %}
+        {% block title %}JuanGamer{% endblock %}
     </title>
   
     <!-- Bootstrap core CSS -->
@@ -17,7 +17,7 @@
     <link href="{% static 'css/modern-business.css' %}" rel="stylesheet">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+
   </head>
   
   <body>
@@ -31,14 +31,15 @@
           <div class="col-4 text-center">
             
             <div id="search-content">
-              <div class="input-group input-group-sm mb-0">
-                <input type="text" id="search" class="form-control" placeholder="Search contents" aria-describedby="input-search-content">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary fa fa-search" type="button" id="btn-search"></button>
+              <form action="{% url 'blog:search_results' %}" method="get" id="search-form">
+                <div class="input-group input-group-sm mb-0">
+                  <input type="text" name="q" id="search" class="form-control" placeholder="Search contents" aria-describedby="input-search-content">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary fa fa-search" type="submit" id="btn-search"></button>
+                  </div>
                 </div>
-                
-              </div>
-              <ul class="list-group" id="result"></ul>
+                <ul class="list-group" id="result"></ul>
+              </form>
             </div>
               
           </div>
@@ -70,16 +71,16 @@
             <a class="nav-link" href="{% url 'blog:reviews' %}">Reviews</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'blog:hardware' %}">Hardware</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="#">Guide</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
+            <a class="nav-link" href="{% url 'blog:hardware' %}">Hardware</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Games</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Services</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Contact</a>
@@ -114,10 +115,6 @@
       $(document).ready(function() {
         
         search_content = {{ all_content | safe }};
-        
-        $("#search").click(function() {
-            $("#result").show(); 
-        });
 
         $('#search').keyup(function(){
           $('#result').html('');
@@ -134,7 +131,7 @@
               if(value.title.search(expression) != -1)
               {
                 {% comment %} $('#result').append('<li class="list-group-item" id='+ value.id +'><a href="">'+ value.title +'</a></li>'); {% endcomment %}
-                $('#result').append('<li class="list-group-item" id='+ value.id +'><a href=""><p>'+ value.title +'</p></a></li>');
+                $('#result').append('<li class="list-group-item" id='+ value.id +'><a href="/' + value.slug + '/"><p>'+ value.title +'</p></a></li>');
               }
 
             })
@@ -142,12 +139,24 @@
         })
         //end:filtering
 
-        $('#result').on('click', 'li', function() {
-          var click_text = $(this).text().split('|');
-          $('#search').val($.trim(click_text[0]));
-          $("#result").html('');
-          alert('searching')
+        //keypress on search
+        $(document).keydown(function(e) {
+          switch(e.which) {
+              case 13: // keypress enter
+              $( "#btn-search" ).click();
+              break;
+              default: return;
+          }
+          e.preventDefault();
         });
+
+        $('#search-form').submit(function() {
+          if ($.trim($("#search").val()) === "" ) {
+              return false;
+          }
+        })
+
+     
 
       });
 

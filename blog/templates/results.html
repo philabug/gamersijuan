@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block title %}Search - JuanGamer{% endblock %}
+
+{% block content %}
+
+
+<!-- Page Content -->
+<div class="container">
+    <h5 class="mt-4 mb-3">Search results for "{{ searchparam }}" :</h5>
+    <p class="text-muted">
+        {% if search_results|length > 1 %}
+            {{ search_results|length }} results
+        {% else %}
+            {{ search_results|length }} result
+        {% endif %}
+        
+    </p>
+    <div class="list-group">
+        {% for results in search_results %}
+            <a href="{% url 'blog:detail' results.slug %}" class="list-group-item list-group-item-action">{{ results.title }}</a>
+        {% endfor %}
+    </div>
+    
+        
+</div>
+<br/><br/>
+<span id="search_me" hidden>{{ searchparam }}</span>
+
+<!-- /.container -->
+
+
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        var sc = $('#search_me').text()
+        $('#search').val(sc)
+    });
+</script>
+{% endblock %}

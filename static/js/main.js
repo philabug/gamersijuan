@@ -1,4 +1,8 @@
 $(function(){
+    
+    $("#search").click(function() {
+        $("#result").show(); 
+    });
 
     $(document).mouseup(function (e) { 
         if ($(e.target).closest("#search-content").length 
@@ -22,4 +26,5 @@ $(function(){
         });
     } //end if
 
+    
 })

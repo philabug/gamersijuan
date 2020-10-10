@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView, TemplateView, View, Creat
 from django.views.generic.edit import FormMixin
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, JsonResponse # noqa
 from .models import Post
+from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 from django.conf import settings
@@ -10,7 +11,7 @@ from hitcount.views import HitCountDetailView
 
 
 def search_content(request):
-    all_content = list(Post.objects.all().values('id','title').order_by('-id'))
+    all_content = list(Post.objects.all().values('id','title','slug').order_by('-id'))
     return ({'all_content': json.dumps(all_content) } )
 
 
@@ -58,3 +59,27 @@ class HardwareViewList(ListView):
     queryset = Post.objects.filter(category='2').order_by('-id')
     template_name = 'hardware.html'
     context_object_name = 'post_hardware'
+
+
+class SearchResultsView(ListView):
+    # model = Post
+    template_name = 'results.html'
+    context_object_name = 'search_results'
+    
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        return Post.objects.filter(
+            Q(title__icontains=query) | Q(short_description__icontains=query)
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchResultsView, self).get_context_data(**kwargs)
+        context['searchparam'] = self.request.GET.get('q')
+        return context
+
+    # def get_queryset(self):
+    #     query = self.request.GET.get('q')
+    #     object_list = Post.objects.filter(
+    #         Q(title__icontains=query) | Q(short_description__icontains=query)
+    #     )
+    #     return object_list
