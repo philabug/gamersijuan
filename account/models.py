@@ -8,14 +8,10 @@ from django.utils import timezone
 User = settings.AUTH_USER_MODEL
 
 
-def user_media_path(instance, filename):
-    return 'user/{0}/images/{1}'.format(instance.id, filename)
-
-
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
-    profile_picture = models.ImageField(upload_to=user_media_path, default='default/me.png') # noqa
+    profile_picture = models.ImageField(upload_to='avatar/', default='avatar/me.png') # noqa
     entry_date = models.DateTimeField(default=timezone.now, blank=True)
 
     def __str__(self):

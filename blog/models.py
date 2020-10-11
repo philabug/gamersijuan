@@ -13,8 +13,8 @@ from django.contrib.contenttypes.fields import GenericRelation
 User = settings.AUTH_USER_MODEL
 
 
-def user_media_path(instance, filename):
-    return 'user/{0}/images/{1}'.format(instance.author.id, filename)
+def post_media_path(instance, filename):
+    return 'post/{0}/{1}'.format(instance.slug, filename)
 
 
 def affiliate_adds_path(instance, filename):
@@ -34,19 +34,20 @@ class Post(models.Model):
         ('2', 'REVIEWS'),
         ('3', 'GUIDE'),
     )
-
+    id = models.AutoField(primary_key=True)
     author = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     short_description = models.CharField(max_length=500, null=True, blank=True)
     pub_date = models.DateTimeField('Date Published', default=timezone.now, blank=True) # noqa
-    banner = models.ImageField('Post Banner', upload_to=user_media_path, null=True, blank=True) # noqa
+    banner = models.ImageField('Post Banner', upload_to=post_media_path, null=True, blank=True) # noqa
     content = RichTextUploadingField(null=True, blank=True)
     slug = models.SlugField(max_length=250, null=True, blank=True)
     tags = TaggableManager(blank=True)
-    feature = models.BooleanField('Homepage feature?', default=False)
+    feature = models.BooleanField('Homepage feature', default=False)
     category = models.CharField(max_length=20, choices = MAIN_CAT)
     sub_category = models.CharField(max_length=20, choices = SUB_CAT, null=True, blank=True)
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk', related_query_name='hit_count_generic_relation')
+    deactivate = models.BooleanField(default=False)
 
 
     def __str__(self):

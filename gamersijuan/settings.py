@@ -59,24 +59,17 @@ CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'Custom',
         'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline', 'FontSize'],
+            ['Bold', 'Italic', 'Underline', 'Font', 'FontSize'],
             ['TextColor', 'BGColor'],
+            ['Table', 'HorizontalRule', 'Smiley', 'SpecialChar'],
             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock','RemoveFormat'], # noqa
             ['Link', 'Unlink'],
             ['Image'],
         ],
         'width': '100%',
+        'height': '300px',
     },
-    'discuss': {
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline'],
-            ['Link', 'Unlink'],
-            ['Image', ],
-        ],
-        'width': '100%',
-        'height': '20%',
-    },
+    
 
 }
 

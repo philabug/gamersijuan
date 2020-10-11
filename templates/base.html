@@ -71,13 +71,13 @@
             <a class="nav-link" href="{% url 'blog:reviews' %}">Reviews</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Guide</a>
+            <a class="nav-link" href="{% url 'blog:guide' %}">Guide</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'blog:hardware' %}">Hardware</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Games</a>
+            <a class="nav-link" href="{% url 'blog:games' %}">Games</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Services</a>
@@ -130,7 +130,6 @@
               $.each(search_content.slice(0,10), function(key, value){
               if(value.title.search(expression) != -1)
               {
-                {% comment %} $('#result').append('<li class="list-group-item" id='+ value.id +'><a href="">'+ value.title +'</a></li>'); {% endcomment %}
                 $('#result').append('<li class="list-group-item" id='+ value.id +'><a href="/' + value.slug + '/"><p>'+ value.title +'</p></a></li>');
               }
 

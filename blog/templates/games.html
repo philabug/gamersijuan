@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Games - JuanGamer{% endblock %}
+
+{% block content %}
+
+
+<!-- Page Content -->
+<div class="container">
+    <h3 class="mt-4 mb-3">Latest News</h3>
+    {% for post in post_games %}
+        <div class="row">
+        <div class="col-md-7">
+            <a href="#">
+            <img class="img-fluid rounded mb-3 mb-md-0" src="{{ post.banner.url }}" width="700px" height="300px" alt="">
+            </a>
+        </div>
+        <div class="col-md-5">
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.content|truncatewords:100 |safe }}</p>
+            <a class="btn btn-primary" href="#">View Project
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+        </div>
+        </div>
+        <hr>
+    {% endfor %}
+</div>
+<!-- /.container -->
+
+
+{% endblock %}
