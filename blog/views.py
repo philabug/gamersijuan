@@ -37,6 +37,7 @@ class PostDetailView(HitCountDetailView):
  
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
+        context['meta'] = self.get_object().as_meta(self.request)
         context.update({
         'popular_posts': Post.objects.filter(deactivate=False).order_by('-hit_count_generic__hits')[:3],
         })

@@ -1,14 +1,18 @@
 {% load staticfiles %}
-<html lang="en"><head>
-
+{% load meta %}
+<html lang="en">
+  <head {% meta_namespaces %}>
+  
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-  
+    
     <title>
         {% block title %}JuanGamer{% endblock %}
     </title>
+
+    {% include "meta/meta.html" %}
+
+    
   
     <!-- Bootstrap core CSS -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">

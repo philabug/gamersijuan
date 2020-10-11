@@ -34,11 +34,7 @@ class Links(models.Model):
     facebook = models.URLField('Facebook profile URL',max_length=200, null=True, blank=True) # noqa
     instagram = models.URLField('Instagram profile URL',max_length=200, null=True, blank=True) # noqa
     twitter = models.URLField('Twitter profile URL',max_length=200, null=True, blank=True) # noqa
-    youtube = models.URLField('Youtube URL',max_length=200, null=True, blank=True) # noqa
+    youtube = models.URLField('Youtube channel URL',max_length=200, null=True, blank=True) # noqa
+    twitch = models.URLField('Twitch channel URL',max_length=200, null=True, blank=True) # noqa
     github = models.URLField('Github profile URL',max_length=200, null=True, blank=True) # noqa
 
-
-class Privacy(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    delete_account = models.BooleanField(default=False)
-    deactivate_account = models.BooleanField(default=False)

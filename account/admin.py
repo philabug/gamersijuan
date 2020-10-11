@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Profile, Links, Privacy
+from .models import User, Profile, Links
 
 
 class ProfileInlineContent(admin.StackedInline):
@@ -11,13 +11,9 @@ class LinksInlineContent(admin.StackedInline):
     model = Links
 
 
-class PrivacyInlineContent(admin.StackedInline):
-    model = Privacy
-
-
 class CustomUserAdmin(UserAdmin):
     model = User
-    inlines = [ProfileInlineContent, LinksInlineContent, PrivacyInlineContent,]
+    inlines = [ProfileInlineContent, LinksInlineContent]
     list_display = ('username', 'email', 'last_login', 'is_active')
     list_display_links = ('username', 'email')
     fieldsets = (

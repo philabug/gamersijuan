@@ -8,6 +8,7 @@ from taggit.managers import TaggableManager
 from ckeditor_uploader.fields import RichTextUploadingField
 from hitcount.models import HitCountMixin, HitCount
 from django.contrib.contenttypes.fields import GenericRelation
+from meta.models import ModelMeta
 
 
 User = settings.AUTH_USER_MODEL
@@ -17,11 +18,7 @@ def post_media_path(instance, filename):
     return 'post/{0}/{1}'.format(instance.slug, filename)
 
 
-def affiliate_adds_path(instance, filename):
-    return 'affiliate/{0}/{1}'.format(instance.post.id, filename)
-
-
-class Post(models.Model):
+class Post(ModelMeta, models.Model):
 
     MAIN_CAT = (
         ('1', 'GAMES'),
@@ -34,7 +31,6 @@ class Post(models.Model):
         ('2', 'REVIEWS'),
         ('3', 'GUIDE'),
     )
-    id = models.AutoField(primary_key=True)
     author = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     short_description = models.CharField(max_length=500, null=True, blank=True)
@@ -49,6 +45,10 @@ class Post(models.Model):
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk', related_query_name='hit_count_generic_relation')
     deactivate = models.BooleanField(default=False)
 
+    _metadata = {
+        'title': 'title',
+        'description': 'short_description',
+    }
 
     def __str__(self):
         return self.title
@@ -71,7 +71,7 @@ class Affiliate(models.Model):
     seller = models.CharField(max_length=250, null=True, blank=True)
     product_name = models.CharField(max_length=250, null=True, blank=True)
     description = models.CharField(max_length=250, null=True, blank=True)
-    product_image = models.ImageField(upload_to=affiliate_adds_path, null=True, blank=True) # noqa
+    product_image = models.ImageField(upload_to=post_media_path, null=True, blank=True) # noqa
     url = models.CharField(max_length=250, blank=True)
     
 
