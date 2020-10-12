@@ -15,6 +15,12 @@ def search_content(request):
     return ({'all_content': json.dumps(all_content) } )
 
 
+def handler404(request, exception, template_name="404.html"):
+    response = render_to_response(template_name)
+    response.status_code = 404
+    return response
+
+
 class HomeViewList(ListView):
     model = Post
     template_name = 'home.html'
@@ -38,6 +44,7 @@ class PostDetailView(HitCountDetailView):
     def get_context_data(self, **kwargs):
         context = super(PostDetailView, self).get_context_data(**kwargs)
         context['meta'] = self.get_object().as_meta(self.request)
+        context['related_post'] = Post.objects.filter(category = self.object.category).exclude(id = self.object.id)
         context.update({
         'popular_posts': Post.objects.filter(deactivate=False).order_by('-hit_count_generic__hits')[:3],
         })

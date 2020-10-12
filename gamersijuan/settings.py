@@ -24,8 +24,7 @@ SECRET_KEY = '#jt^y*puiz((dk2l4kj47x0-ruqd5ihn9%gz$*)n$lm@!v3ney'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -66,8 +65,8 @@ CKEDITOR_CONFIGS = {
             ['Link', 'Unlink'],
             ['Image'],
         ],
-        'width': '800px',
-        'height': '300px',
+        'width': '900px',
+        'height': '400px',
     },
     
 

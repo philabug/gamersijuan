@@ -11,7 +11,7 @@ class AffiliateInlineContent(admin.StackedInline):
 class PostAdmin(admin.ModelAdmin):
     form = PostForm
     inlines = [AffiliateInlineContent ]
-    list_display = ('id','title','pub_date','category','sub_category','feature','deactivate')
+    list_display = ('id','title','pub_date','category','sub_category','feature','deactivate','author')
     list_display_links = ('id','title')
     list_filter = ('category','sub_category','feature','deactivate')
     search_fields = ('title',)
@@ -28,13 +28,20 @@ class PostAdmin(admin.ModelAdmin):
                 'feature',
                 'pub_date',
                 'tags',
-                'deactivate'
+                'deactivate',
             ),
         }),
     )
+
+    def get_queryset(self, request):
+        qs = super(PostAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(author=request.user)
     
     def save_model(self, request, obj, form, change):
-        obj.author = request.user
-        obj.save()
+        if not change:
+            obj.author = request.user
+        super().save_model(request, obj, form, change)
 
 admin.site.register(Post, PostAdmin)
