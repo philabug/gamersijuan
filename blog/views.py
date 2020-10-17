@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 from django.conf import settings
 from hitcount.views import HitCountDetailView
+from django.core.paginator import Paginator
 
 
 def search_content(request):
@@ -24,12 +25,28 @@ def handler404(request, exception, template_name="404.html"):
 class HomeViewList(ListView):
     model = Post
     template_name = 'home.html'
+    paginate_by = 3
+    queryset = Post.objects.filter(deactivate=False).order_by('-id')
 
     def get_context_data(self, *args, **kwargs):
         context = super(HomeViewList, self).get_context_data(*args, **kwargs)
+        paginator = context['paginator']
+        page_numbers_range = 5 # Number of pages per page
+        max_index = len(paginator.page_range)
+
+        page = self.request.GET.get('page')
+        current_page = int(page) if page else 1
+
+        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+        end_index = start_index + page_numbers_range
+        if end_index >= max_index:
+            end_index = max_index
+
+        page_range = paginator.page_range[start_index:end_index]
+
+        context['page_range'] = page_range
         context['features'] = Post.objects.filter(feature=True, deactivate=False).order_by('-id')
-        context['posts'] = Post.objects.filter(deactivate=False).order_by('-id')
-        context['hardwares'] = Post.objects.filter(category='2', deactivate=False).order_by('-id')
+
         return context
 
 
@@ -88,9 +105,29 @@ class SearchResultsView(ListView):
 
 
 class GamesViewList(ListView):
-    queryset = Post.objects.filter(category='1', deactivate=False).order_by('-id')
+    model = Post
     template_name = 'games.html'
-    context_object_name = 'post_games'
+    paginate_by = 5
+    queryset = Post.objects.filter(category='1', deactivate=False).order_by('-id')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(GamesViewList, self).get_context_data(*args, **kwargs)
+        paginator = context['paginator']
+        page_numbers_range = 5 # Number of pages per page
+        max_index = len(paginator.page_range)
+
+        page = self.request.GET.get('page')
+        current_page = int(page) if page else 1
+
+        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+        end_index = start_index + page_numbers_range
+        if end_index >= max_index:
+            end_index = max_index
+
+        page_range = paginator.page_range[start_index:end_index]
+
+        context['page_range'] = page_range
+        return context
 
 
 class GuideViewList(ListView):

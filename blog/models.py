@@ -18,6 +18,10 @@ def post_media_path(instance, filename):
     return 'post/{0}/{1}'.format(instance.slug, filename)
 
 
+def affiliate_adds_path(instance, filename):
+    return 'post/{0}/{1}'.format(instance.post.slug, filename)
+
+
 class Post(ModelMeta, models.Model):
 
     MAIN_CAT = (
@@ -35,11 +39,12 @@ class Post(ModelMeta, models.Model):
     title = models.CharField(max_length=255)
     short_description = models.CharField(max_length=500, null=True, blank=True)
     pub_date = models.DateTimeField('Date Published', default=timezone.now, blank=True) # noqa
-    banner = models.ImageField('Post Banner', upload_to=post_media_path, null=True, blank=True) # noqa
+    banner = models.ImageField('Post Banner', help_text="Atleast 1900 x 1080" , upload_to=post_media_path, null=True, blank=True) # noqa
     content = RichTextUploadingField(null=True, blank=True)
     slug = models.SlugField(max_length=250, null=True, blank=True)
     tags = TaggableManager(blank=True)
     feature = models.BooleanField('Homepage feature', default=False)
+    highlight = models.BooleanField('Homepage highlight', default=False)
     category = models.CharField(max_length=20, choices = MAIN_CAT)
     sub_category = models.CharField(max_length=20, choices = SUB_CAT, null=True, blank=True)
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk', related_query_name='hit_count_generic_relation')
@@ -71,7 +76,7 @@ class Affiliate(models.Model):
     seller = models.CharField(max_length=250, null=True, blank=True)
     product_name = models.CharField(max_length=250, null=True, blank=True)
     description = models.CharField(max_length=250, null=True, blank=True)
-    product_image = models.ImageField(upload_to=post_media_path, null=True, blank=True) # noqa
+    product_image = models.ImageField(upload_to=affiliate_adds_path, null=True, blank=True) # noqa
     url = models.CharField(max_length=250, blank=True)
     
 
