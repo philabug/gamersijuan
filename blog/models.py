@@ -40,11 +40,15 @@ class Post(ModelMeta, models.Model):
     short_description = models.CharField(max_length=500, null=True, blank=True)
     pub_date = models.DateTimeField('Date Published', default=timezone.now, blank=True) # noqa
     banner = models.ImageField('Post Banner', help_text="Atleast 1900 x 1080" , upload_to=post_media_path, null=True, blank=True) # noqa
-    content = RichTextUploadingField(null=True, blank=True)
+    content = RichTextUploadingField(null=True, blank=True, extra_plugins= 
+            ['codesnippet','youtube',], external_plugin_resources= 
+            [('youtube','/static/plugin/youtube/','plugin.js')],
+        )
     slug = models.SlugField(max_length=250, null=True, blank=True)
     tags = TaggableManager(blank=True)
     feature = models.BooleanField('Homepage feature', default=False)
     highlight = models.BooleanField('Homepage highlight', default=False)
+    promoted = models.BooleanField(default=False)
     category = models.CharField(max_length=20, choices = MAIN_CAT)
     sub_category = models.CharField(max_length=20, choices = SUB_CAT, null=True, blank=True)
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk', related_query_name='hit_count_generic_relation')

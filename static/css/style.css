@@ -91,11 +91,19 @@
   padding: 0.35rem !important;
 }
 
-
 @media screen and (max-width: 600px) {
+  .d-none {
+    display: block !important;
+  }
+  h1 a{
+    font-size: 20px !important;
+  }
+  h4 {
+    font-size: 18px !important;
+  }
+  
   p img{
-      width: 100% !important;
-      height: 40% !important;
+      object-fit:cover !important;
   }
   .logo {
     max-width:100%;
@@ -104,5 +112,7 @@
   .col-4{
     padding-right: 0 !important;
   }
+
+
   
 }

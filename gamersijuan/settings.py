@@ -63,9 +63,9 @@ CKEDITOR_CONFIGS = {
             ['Table', 'HorizontalRule', 'Smiley', 'SpecialChar'],
             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock','RemoveFormat'], # noqa
             ['Link', 'Unlink'],
-            ['Image'],
+            ['Image','Youtube'],
         ],
-        'width': '900px',
+        'width': '1000px',
         'height': '400px',
     },
     

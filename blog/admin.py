@@ -27,6 +27,7 @@ class PostAdmin(admin.ModelAdmin):
                 'tags',
                 'feature',
                 'highlight',
+                'promoted',
                 'deactivate',
             ),
         }),
@@ -36,10 +37,10 @@ class PostAdmin(admin.ModelAdmin):
     def changelist_view(self, request, extra_context=None):    
         if not request.user.is_superuser:
             self.list_display_links = ('id','title')
-            self.list_display = ('id','title','pub_date','category','sub_category','feature','highlight')
+            self.list_display = ('id','title','pub_date','category','sub_category','feature','highlight','promoted')
         else:
             self.list_display_links = ('id','title')
-            self.list_display = ('id','title','pub_date','category','sub_category','feature','highlight','author')
+            self.list_display = ('id','title','pub_date','category','sub_category','feature','highlight','promoted','author')
         return super(PostAdmin, self).changelist_view(request, extra_context)
 
 

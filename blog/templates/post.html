@@ -8,29 +8,59 @@
 
 <!-- container -->
 <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <!-- Page Heading/Breadcrumbs -->
+        <h1 class="mt-4 mb-3">{{ post.title }}</h1>
+        <small>By <b>{{ post.author.first_name }} {{ post.author.last_name }}</b> - {{ post.pub_date|naturalday }} 
+          <i class="fa fa-eye"></i> {% get_hit_count for post %}
+        </small>
 
-    <!-- Page Heading/Breadcrumbs -->
-    <h1 class="mt-4 mb-3">{{ post.title }}</h1>
 
-    <p>{{ post.content|safe}}</p>
-    <br/>
+        <p>{{ post.content|safe}}</p>
+        <br/>
 
-    <!-- Author -->
-      <h3 class="my-4">About</h3>
-      <p>{{ post.author.first_name }} {{ post.author.last_name }}</p>
-      <img class="rounded-circle" src="{{ post.author.profile_picture.url }}" width="50px" height="50px" alt=""/>
-      <p>{{ post.author.profile.short_description }}</p>
-    <hr>
+        <!-- Author -->
+          <h3 class="my-4">About</h3>
+          <p>{{ post.author.first_name }} {{ post.author.last_name }}</p>
+          <img class="rounded-circle" src="{{ post.author.profile_picture.url }}" width="50px" height="50px" alt=""/>
+          <p>{{ post.author.profile.short_description }}</p>
+        <hr>
 
-    <br/>
-    
-    <h3 class="my-4">Related Topic</h3>
-    {% for related in  related_post %}
-        <h2><a href="{% url 'blog:detail' related.slug %}">{{ related.title }}</a></h2>
-    {% endfor %}
-    
+        <br/>
+      </div>
+      
+      <div class="col-md-4">
 
-  </div>
+        <div class="card my-4">
+          <h5 class="card-header">Related Topic</h5>
+          <div class="card-body">
+                {% for related in  related_post %}
+                  <h5><a href="{% url 'blog:detail' related.slug %}">{{ related.title }}</a></h5>
+                 {% endfor %}
+          </div>
+        </div>
+
+        <div class="card my-4">
+          <h5 class="card-header">Adsense here</h5>
+          <div class="card-body">
+                {% lorem 1 b random %}
+          </div>
+        </div>
+
+       
+      </div>
+
+    </div>
+
+    <div class="col-md-8">
+      <h3 class="my-4">Promoted</h3>
+      {% for promoted in  promoted_post %}
+          <h2><a href="{% url 'blog:detail' promoted.slug %}">{{ promoted.title }}</a></h2>
+      {% endfor %}
+    </div>
+
+</div>
 <!-- /.container -->
 
 

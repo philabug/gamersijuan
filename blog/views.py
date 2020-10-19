@@ -25,7 +25,7 @@ def handler404(request, exception, template_name="404.html"):
 class HomeViewList(ListView):
     model = Post
     template_name = 'home.html'
-    paginate_by = 3
+    paginate_by = 8
     queryset = Post.objects.filter(deactivate=False).order_by('-id')
 
     def get_context_data(self, *args, **kwargs):
@@ -62,6 +62,7 @@ class PostDetailView(HitCountDetailView):
         context = super(PostDetailView, self).get_context_data(**kwargs)
         context['meta'] = self.get_object().as_meta(self.request)
         context['related_post'] = Post.objects.filter(category = self.object.category).exclude(id = self.object.id)
+        context['promoted_post'] = Post.objects.filter(promoted=True, deactivate=False).exclude(id = self.object.id)
         context.update({
         'popular_posts': Post.objects.filter(deactivate=False).order_by('-hit_count_generic__hits')[:3],
         })
