@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load humanize %}
 {% load hitcount_tags %}
 
@@ -10,28 +11,65 @@
 <div class="container">
     <div class="row">
       <div class="col-md-8">
-        <!-- Page Heading/Breadcrumbs -->
-        <h1 class="mt-4 mb-3">{{ post.title }}</h1>
-        <small>By <b>{{ post.author.first_name }} {{ post.author.last_name }}</b> - {{ post.pub_date|naturalday }} 
-          <i class="fa fa-eye"></i> {% get_hit_count for post %}
-        </small>
+        <h1 class="mt-4 mb-1">{{ post.title }}</h1>
+          <div class="col-lg-12 pl-0">
+            <div class="d-flex justify-content-between">
+              <small class="text-muted"><strong>{{ post.pub_date|naturalday:"F j, Y" }}</strong></small>
 
+              <!-- Load Facebook SDK for JavaScript -->
+              <div id="fb-root"></div>
+              <script>(function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+              fjs.parentNode.insertBefore(js, fjs);
+              }(document, 'script', 'facebook-jssdk'));</script>
 
+              <!-- Your share button code -->
+              <div class="fb-share-button" 
+              data-href="{% url 'blog:detail' post.slug %}" 
+              data-layout="button_count">
+              </div>
+
+            </div>
+          </div>
+          
+        <hr/>
+        
+        <!-- Post Content -->
         <p>{{ post.content|safe}}</p>
-        <br/>
 
-        <!-- Author -->
-          <h3 class="my-4">About</h3>
-          <p>{{ post.author.first_name }} {{ post.author.last_name }}</p>
-          <img class="rounded-circle" src="{{ post.author.profile_picture.url }}" width="50px" height="50px" alt=""/>
-          <p>{{ post.author.profile.short_description }}</p>
+        <!-- The Modal -->
+        <div id="imgModal" class="img-viewer">
+          <span class="close">&times;</span>
+          <img class="img-viewer-content" id="img01">
+        </div>
+
         <hr>
 
-        <br/>
+        <!-- Author -->
+        <div class="d-flex justify-content-center text-center pb-2">
+            <div class="col-md-8">
+              <img class="rounded-circle" src="{{ post.author.profile_picture.url }}" width="80" height="80" alt=""/>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-center text-center">
+            <div class="col-md-8">
+              <p><strong>{{ post.author.first_name }} {{ post.author.last_name }}</strong></p>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-center">
+            <div class="col-md-8">
+              <p>{{ post.author.profile.short_description }}</p>
+            </div>
+        </div>
+        <hr>
       </div>
       
       <div class="col-md-4">
-
         <div class="card my-4">
           <h5 class="card-header">Related Topic</h5>
           <div class="card-body">
@@ -42,9 +80,17 @@
         </div>
 
         <div class="card my-4">
-          <h5 class="card-header">Adsense here</h5>
+          
           <div class="card-body">
-                {% lorem 1 b random %}
+                Voluptas exercitationem deserunt saepe vero impedit 
+                corporis nulla odit aperiam aspernatur officia, tenetur 
+                nihil vel, voluptatem molestias exercitationem asperiores 
+                officia, saepe officiis labore quibusdam dolorem ab illo repellat 
+                obcaecati minima perferendis at, qui ipsum cumque itaque consequatur 
+                dolore facilis molestias non aliquam. Consequuntur laboriosam esse 
+                onsequatur earum alias quis, error culpa inventore, cumque quaerat 
+                ratione tenetur ipsum perspiciatis. Incidunt quisquam iste atque id 
+                dignissimos distinctio omnis provident corporis, aut numquam laborum nemo expedita
           </div>
         </div>
 
@@ -53,15 +99,50 @@
 
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-8 pl-0">
       <h3 class="my-4">Promoted</h3>
-      {% for promoted in  promoted_post %}
-          <h2><a href="{% url 'blog:detail' promoted.slug %}">{{ promoted.title }}</a></h2>
-      {% endfor %}
+      <div class="row">
+        {% for promoted in  promoted_post %}
+          <div class="col-lg-4 col-sm-6 portfolio-item">
+            <div class="card h-100">
+              <a href="{% url 'blog:detail' promoted.slug %}"><img class="card-img-top" src="{{ promoted.banner.url }}" width="700px" height="120px" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a href="{% url 'blog:detail' promoted.slug %}">{{ promoted.title }}</a>
+                </h4>
+              </div>
+            </div>
+          </div>
+          
+
+        {% endfor %}
+      </div>
+      
+        
+      
     </div>
 
 </div>
 <!-- /.container -->
 
+<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+
+<script>
+
+  $(document).ready(function() {
+
+    $('p > img').bind('click', function(){
+      var imgsrc = $(this).attr('src')
+      $("#img01").attr("src",imgsrc)
+      $('#imgModal').show();
+    });
+
+    $('span').click(function(){
+      $('#imgModal').hide();
+    })
+
+  });
+
+</script>
 
 {% endblock %}

@@ -47,7 +47,6 @@ class Post(ModelMeta, models.Model):
     slug = models.SlugField(max_length=250, null=True, blank=True)
     tags = TaggableManager(blank=True)
     feature = models.BooleanField('Homepage feature', default=False)
-    highlight = models.BooleanField('Homepage highlight', default=False)
     promoted = models.BooleanField(default=False)
     category = models.CharField(max_length=20, choices = MAIN_CAT)
     sub_category = models.CharField(max_length=20, choices = SUB_CAT, null=True, blank=True)
