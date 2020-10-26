@@ -14,7 +14,7 @@
         <h1 class="mt-4 mb-1">{{ post.title }}</h1>
           <div class="col-lg-12 pl-0">
             <div class="d-flex justify-content-between">
-              <small class="text-muted"><strong>{{ post.pub_date|naturalday:"F j, Y" }}</strong></small>
+              <small class="text-muted" style="font-size:13.5px">{{ post.pub_date|naturalday:"F j, Y" }}</small>
 
               <!-- Load Facebook SDK for JavaScript -->
               <div id="fb-root"></div>
@@ -46,6 +46,7 @@
           <img class="img-viewer-content" id="img01">
         </div>
 
+        <br/>
         <hr>
 
         <!-- Author -->
@@ -66,12 +67,14 @@
               <p>{{ post.author.profile.short_description }}</p>
             </div>
         </div>
+
         <hr>
+        
       </div>
       
       <div class="col-md-4">
         <div class="card my-4">
-          <h5 class="card-header">Related Topic</h5>
+          <h5 class="card-header">Related Topics</h5>
           <div class="card-body">
                 {% for related in  related_post %}
                   <h5><a href="{% url 'blog:detail' related.slug %}">{{ related.title }}</a></h5>
@@ -100,7 +103,7 @@
     </div>
 
     <div class="col-md-8 pl-0">
-      <h3 class="my-4">Promoted</h3>
+      <h5 class="my-4">Promoted</h5>
       <div class="row">
         {% for promoted in  promoted_post %}
           <div class="col-lg-4 col-sm-6 portfolio-item">
@@ -110,6 +113,7 @@
                 <h4 class="card-title">
                   <a href="{% url 'blog:detail' promoted.slug %}">{{ promoted.title }}</a>
                 </h4>
+                <small>{{ promoted.short_description|default_if_none:"" }}</small>
               </div>
             </div>
           </div>

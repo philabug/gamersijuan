@@ -19,7 +19,10 @@
     </p>
     <div class="list-group">
         {% for results in search_results %}
-            <a href="{% url 'blog:detail' results.slug %}" class="list-group-item list-group-item-action">{{ results.title }}</a>
+            <a href="{% url 'blog:detail' results.slug %}" class="list-group-item list-group-item-action">{{ results.title }}
+                <br/>
+                <small>{{ results.short_description|default_if_none:"" }}</small>
+            </a>
         {% endfor %}
     </div>
     

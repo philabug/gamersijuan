@@ -53,22 +53,26 @@
     <br/><br/>
     <!-- Portfolio Section -->
     <h4>Latest Updates</h4>
+    
 
-   <div class="row">
+    <div class="row">
         {% for post in page_obj %}
-        <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
-            <div class="card h-100">
-            <a href="{% url 'blog:detail' post.slug %}"><img class="card-img-top" src="{{ post.banner.url }}" width="700px" height="175px" alt=""></a>
-            <div class="card-body">
-                <h4 class="card-title">
-                <a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a>
-                </h4>
-                <p class="card-text">{{ post.content|truncatewords:10 |safe }}</p>
+            <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
+                <div class="card h-100">
+                <a href="{% url 'blog:detail' post.slug %}"><img class="card-img-top" src="{{ post.banner.url }}" width="700px" height="175px" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a>
+                    </h4>
+                    <small>{{ post.short_description|default_if_none:"" }}</small>
+                
+                </div>
+                </div>
             </div>
-            </div>
-        </div>
         {% endfor %}
     </div>
+
+
     <div class="row">
         <div class="col-md-12">
             {% if is_paginated %}
