@@ -76,15 +76,59 @@ class NewsViewList(ListView):
 
 
 class ReviewsViewList(ListView):
-    queryset = Post.objects.filter(sub_category='2', deactivate=False).order_by('-id')
+    model = Post
     template_name = 'reviews.html'
-    context_object_name = 'post_reviews'
+    paginate_by = 6
+    queryset = Post.objects.filter(sub_category='2', deactivate=False).order_by('-id')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ReviewsViewList, self).get_context_data(*args, **kwargs)
+        paginator = context['paginator']
+        page_numbers_range = 5 # Number of pages per page
+        max_index = len(paginator.page_range)
+
+        page = self.request.GET.get('page')
+        current_page = int(page) if page else 1
+
+        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+        end_index = start_index + page_numbers_range
+        if end_index >= max_index:
+            end_index = max_index
+
+        page_range = paginator.page_range[start_index:end_index]
+
+        context['page_range'] = page_range
+        context['features'] = Post.objects.filter(feature=True, deactivate=False).order_by('-id')
+
+        return context
 
 
 class HardwareViewList(ListView):
-    queryset = Post.objects.filter(category='2', deactivate=False).order_by('-id')
+    model = Post
     template_name = 'hardware.html'
-    context_object_name = 'post_hardware'
+    paginate_by = 6
+    queryset = Post.objects.filter(category='2', deactivate=False).order_by('-id')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(HardwareViewList, self).get_context_data(*args, **kwargs)
+        paginator = context['paginator']
+        page_numbers_range = 5 # Number of pages per page
+        max_index = len(paginator.page_range)
+
+        page = self.request.GET.get('page')
+        current_page = int(page) if page else 1
+
+        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+        end_index = start_index + page_numbers_range
+        if end_index >= max_index:
+            end_index = max_index
+
+        page_range = paginator.page_range[start_index:end_index]
+
+        context['page_range'] = page_range
+        context['features'] = Post.objects.filter(feature=True, deactivate=False).order_by('-id')
+
+        return context
 
 
 class SearchResultsView(ListView):
@@ -108,7 +152,7 @@ class SearchResultsView(ListView):
 class GamesViewList(ListView):
     model = Post
     template_name = 'games.html'
-    paginate_by = 5
+    paginate_by = 6
     queryset = Post.objects.filter(category='1', deactivate=False).order_by('-id')
 
     def get_context_data(self, *args, **kwargs):
@@ -128,10 +172,34 @@ class GamesViewList(ListView):
         page_range = paginator.page_range[start_index:end_index]
 
         context['page_range'] = page_range
+        context['features'] = Post.objects.filter(feature=True, deactivate=False).order_by('-id')
+
         return context
 
 
 class GuideViewList(ListView):
-    queryset = Post.objects.filter(sub_category='3', deactivate=False).order_by('-id')
+    model = Post
     template_name = 'guide.html'
-    context_object_name = 'post_guide'
+    paginate_by = 6
+    queryset = Post.objects.filter(sub_category='3', deactivate=False).order_by('-id')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(GuideViewList, self).get_context_data(*args, **kwargs)
+        paginator = context['paginator']
+        page_numbers_range = 5 # Number of pages per page
+        max_index = len(paginator.page_range)
+
+        page = self.request.GET.get('page')
+        current_page = int(page) if page else 1
+
+        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
+        end_index = start_index + page_numbers_range
+        if end_index >= max_index:
+            end_index = max_index
+
+        page_range = paginator.page_range[start_index:end_index]
+
+        context['page_range'] = page_range
+        context['features'] = Post.objects.filter(feature=True, deactivate=False).order_by('-id')
+
+        return context

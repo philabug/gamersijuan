@@ -50,16 +50,25 @@
 
 <!-- Page Content -->
 <div class="container">
-    <br/><br/>
+    <br/>
+    <!--Home Adds 1-->
+    <div class="row">   
+        <div class="col-md-12">
+            <p>{% lorem 1 b random %}</p>
+        </div>
+    </div>
+    <br/>
+
     <!-- Portfolio Section -->
     <h4>Latest Updates</h4>
-    
-
+    <hr/>
     <div class="row">
         {% for post in page_obj %}
             <div class="col-lg-3 col-md-4 col-sm-6 portfolio-item">
                 <div class="card h-100">
                 <a href="{% url 'blog:detail' post.slug %}"><img class="card-img-top" src="{{ post.banner.url }}" width="700px" height="175px" alt=""></a>
+                <span>{{ post.get_sub_category_display  }}</span>
+                
                 <div class="card-body">
                     <h4 class="card-title">
                         <a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a>
@@ -115,7 +124,15 @@
             {% endif %}
         </div>
     </div>
+    <br/>
 
+    <!--Home Adds 2-->
+    <div class="row">   
+        <div class="col-md-12">
+            <p>{% lorem 1 b random %}</p>
+        </div>
+    </div>
+    <br/><br/>
 
 </div>
 <!-- /.container -->

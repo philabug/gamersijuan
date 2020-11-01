@@ -82,24 +82,21 @@
           </div>
         </div>
 
+        <!--Post Adds 1-->
         <div class="card my-4">
-          
           <div class="card-body">
-                Voluptas exercitationem deserunt saepe vero impedit 
-                corporis nulla odit aperiam aspernatur officia, tenetur 
-                nihil vel, voluptatem molestias exercitationem asperiores 
-                officia, saepe officiis labore quibusdam dolorem ab illo repellat 
-                obcaecati minima perferendis at, qui ipsum cumque itaque consequatur 
-                dolore facilis molestias non aliquam. Consequuntur laboriosam esse 
-                onsequatur earum alias quis, error culpa inventore, cumque quaerat 
-                ratione tenetur ipsum perspiciatis. Incidunt quisquam iste atque id 
-                dignissimos distinctio omnis provident corporis, aut numquam laborum nemo expedita
+              <p>{% lorem 1 b random %}</p>
           </div>
         </div>
 
        
       </div>
 
+    </div>
+    
+    <!--Post Adds 2-->
+    <div class="col-md-8 pl-0">
+        <p>{% lorem 1 b random %}</p>
     </div>
 
     <div class="col-md-8 pl-0">
@@ -109,6 +106,7 @@
           <div class="col-lg-4 col-sm-6 portfolio-item">
             <div class="card h-100">
               <a href="{% url 'blog:detail' promoted.slug %}"><img class="card-img-top" src="{{ promoted.banner.url }}" width="700px" height="120px" alt=""></a>
+              <span>{{ post.get_sub_category_display  }}</span>
               <div class="card-body">
                 <h4 class="card-title">
                   <a href="{% url 'blog:detail' promoted.slug %}">{{ promoted.title }}</a>

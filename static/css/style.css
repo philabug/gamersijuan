@@ -1,3 +1,18 @@
+body {
+  color: #222;
+}
+
+body.dark {
+  background-color: #222;
+  color: #fff;
+}
+
+/* more dark mode styles here */
+
+footer{
+  background-image: url('/static/img/logo/footer_image.png');
+  background-size: 100% 100%;
+}
 
 .carousel-item {
   height: 65vh;
@@ -157,6 +172,19 @@
   color: #bbb;
   text-decoration: none;
   cursor: pointer;
+}
+
+.card span {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #f3efef;
+  width: auto;
+  color: #505050;
+  font-family: 'Open Sans', arial, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2 2;
 }
 
 /* For edge browser only */
